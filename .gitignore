@@ -1,3 +1,8 @@
+# secret config file
+secret.txt
+config/credentials.json
+
+
 # Logs
 logs
 *.log

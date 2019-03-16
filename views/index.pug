@@ -1,5 +1,20 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.home-center
+    h1= title
+    div.home-buttons.container.row
+      div.col-sm
+        a(href="/new")
+          div.home-button [+] New List
+      div.col-sm
+        a(href="/explore")
+          div.home-button Explore Lists
+      div.col-sm
+        if (!user)
+          a(href="/login")
+            div.home-button Sign In
+        else
+          a(href="/logout")
+            div.home-button Sign Out
+            

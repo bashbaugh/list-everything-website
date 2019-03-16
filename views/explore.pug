@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div.home-center
+    h1 Explore Lists
+    p Explore and vote on public lists created by other people in the community.
+    
+    p LOTS AND LOTS OF LISTS TO LOOK AT RIGHT HERE!
+    
+    if (!user)
+      p
+        a(href="/login") Sign in or Register
+    p
+      a(href="/") Cancel

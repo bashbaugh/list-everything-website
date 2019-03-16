@@ -1,0 +1,17 @@
+{
+    "development": {
+        "config_id": "development",
+        "app_name": "List-everything",
+        "db_uri": "mongodb+srv://admin:pwd@cluster0-1zlqi.mongodb.net/list0?retryWrites=true",
+        "secret": "gfagKJDGHFYewugIEUF"
+    },
+    "testing": {
+        "config_id": "testing"
+    },
+    "staging": {
+        "config_id": "staging"
+    },
+    "production": {
+        "config_id": "production"
+    }
+}

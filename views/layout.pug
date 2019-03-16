@@ -2,4 +2,10 @@ doctype html
 html
   include includes/head.pug
   body
+    if (error && error.length > 0)
+      div.alert.alert-warning.alert-dismissible.fade.show
+        strong= error
+        button.close(type="button", data-dismiss="alert", aria-label="Close")
+          span(aria-hidden="true") &times;
     block content
+    include includes/js.pug
