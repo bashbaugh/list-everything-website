@@ -1,6 +1,10 @@
 Account = require('../models/account')
 passport = require('passport');
 
+// const { body,validationResult } = require('express-validator/check');
+// const { sanitizeBody } = require('express-validator/filter');
+
+
 exports.index = function(req, res) {
   res.render('index', { title: global.gConfig.app_name, user: req.user});
 }
@@ -33,7 +37,13 @@ exports.register_post = function(req, res) {
 }
 
 exports.login_after_post = function(req, res) {
-  res.redirect('/');
+  if (req.session.redirectTo) {
+    var rt = req.session.redirectTo;
+    delete req.session.redirectTo;
+    res.redirect(rt);
+  } else {
+    res.redirect('/');
+  }
 }
 
 exports.logout = function(req, res) {

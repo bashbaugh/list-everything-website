@@ -3,7 +3,7 @@ html
   include includes/head.pug
   body
     if (error && error.length > 0)
-      div.alert.alert-warning.alert-dismissible.fade.show
+      div.alert.alert-dark.alert-dismissible.fade.show
         strong= error
         button.close(type="button", data-dismiss="alert", aria-label="Close")
           span(aria-hidden="true") &times;

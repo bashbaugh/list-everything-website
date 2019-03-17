@@ -12,6 +12,10 @@ var Account = new Schema({
     password: {type: String}
 });
 
+Account.virtual('url').get(function (){
+  return "/user/" + this.username
+});
+
 Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Account', Account); 

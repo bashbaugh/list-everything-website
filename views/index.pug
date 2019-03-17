@@ -3,7 +3,7 @@ extends layout
 block content
   div.home-center
     h1= title
-    div.home-buttons.container.row
+    div.top-pad.container.row
       div.col-sm
         a(href="/new")
           div.home-button [+] New List
@@ -11,10 +11,6 @@ block content
         a(href="/explore")
           div.home-button Explore Lists
       div.col-sm
-        if (!user)
-          a(href="/login")
-            div.home-button Sign In
-        else
-          a(href="/logout")
-            div.home-button Sign Out
+        a(href="/user")
+          div.home-button My Lists
             

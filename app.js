@@ -52,8 +52,8 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/', listRouter);
+app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
