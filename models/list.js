@@ -1,16 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ListItemSchema = new Schema({ name: {
-  type: String,
-  required: true
-} });
+var ListItemSchema = require('./list_item');
 
 var ListSchema = new Schema({
   name: {
-    type: String, required: [true, "name required"],
+    type: String, 
+    required: [true, "name required"],
     minlength: [3, "name must be at least 3 characters long"]},
-  author: {type: Schema.types.ObjectId, ref: 'Account', required: [true, "author required"]},
+  author: {
+    type: Schema.types.ObjectId, 
+    ref: 'Account', 
+    required: [true, "author required"]},
   description: {
     type: String,
     maxlength: [200, "description must be shorter than 200 characters"]},
@@ -19,11 +20,22 @@ var ListSchema = new Schema({
     required: true
   },
   list_type: {
-    type: String
+    type: String,
     required: true
   },
+  allow_submissions: {
+    type: Boolean,
+    required: true
+  },
+  moderate_submissions: {
+    type: Boolean
+  }
   created: {
     type: Date,
+    required: true
+  },
+  public_list: {
+    type: Boolean,
     required: true
   },
   contents: [ListItemSchema]

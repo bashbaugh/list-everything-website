@@ -6,7 +6,7 @@ passport = require('passport');
 
 
 exports.index = function(req, res) {
-  res.render('index', { title: global.gConfig.app_name, user: req.user});
+  res.render('index', { title: global.gConfig.app_name, user: req.user, error: req.flash('error')});
 }
 
 exports.login_get = function(req, res) {
@@ -48,5 +48,6 @@ exports.login_after_post = function(req, res) {
 
 exports.logout = function(req, res) {
   req.logout();
+  req.flash('error', 'You are now signed out');
   res.redirect('/');
 }

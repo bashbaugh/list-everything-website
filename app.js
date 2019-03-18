@@ -10,12 +10,16 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var flash = require('connect-flash');
+var csrf = require('csurf')
 
 var indexRouter = require('./routes/app');
 var usersRouter = require('./routes/users');
 var listRouter = require('./routes/list');
 
 var app = express();
+
+
+var csrfProtection = csrf();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

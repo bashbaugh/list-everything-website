@@ -7,11 +7,54 @@ block content
       p Welcome #{user.username}. Create a new list below.
     else
       p Welcome. Create a new list below. You will be recorded as a guest.
+    
+    hr
+    form(action="/new", method="post")
+      input(type="hidden", name="_csrf", value=csrf)
+      div.form-group
+        //label Name your list
+        input.form-control(required="true", type="text", name="name", placeholder="List name")
+      div.form-group
+        textarea.form-control(rows="3", name="description", placeholder="List description (optional)", maxlength="200")
+        hr
+      div.form-group
+        label Public?
+        br
+        input.form-control(type="checkbox", id="agreement-checkbox", name="public", data-toggle="toggle", data-on="Public >", data-off="< Private", data-onstyle="info", data-offstyle="primary", data-width="150")
+        small.form-text.text-muted Public means anyone will be able to view your list. Private means only you and/or people you share it with will be able to see it.
+        hr
+      div.form-group
+        label Automatically move most popular items to top of list?
+        br
+        input.form-control(type="checkbox", name="votable" data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
+        small.form-text.text-muted If you choose yes, then the items on your list that get the most upvotes will be moved to the top of the list.
+        hr
+      div.form-group
+        label Allow submissions to list?
+        br
+        input.form-control(type="checkbox", id="moderate-checkbox", name="allow-submissions", data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
+        small.form-text.text-muted If you choose yes, then other users will be able to submit items to your list.
+        hr
+      div.collapse(id="moderate-collapse")
+        div.form-group
+          label Premoderate submissions?
+          br
+          input.form-control(type="checkbox", name="moderate-submissions", checked, data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
+          small.form-text.text-muted If you select this option, then all submissions will have to be accepted by you before they are published.
+          hr
       
-    p CREATE LIST HERE.
+      div.collapse(id="agreement-collapse")
+        small
+          strong By pressing the "Create List" button below, you confirm that this list's title, description, and intended contents are not rude, offensive, or NSFW-rated. Submission of offensive or NSFW lists will result in a permanent ban of your account.
+      br
+      br
+      button.btn.btn-dark(type="submit") Create List
     
     if (!user)
       p
         a(href="/login") Sign in or Register
     p
       a(href="/") Cancel
+
+block js
+  script(src="/javascripts/new_list_form.js")
