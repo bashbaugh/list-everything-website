@@ -1,0 +1,51 @@
+extends layout
+
+block head
+  title Add items to #{list.name}
+
+block content
+  div.home-center
+    if req.user && req.user._id.toString() == list.author._id.toString()
+      if req.query.first == "true" && list.contents.length == 0
+        h1 Finish creating 
+          span.text-info #{list.name}
+          
+        p Your list has been created. Now you just need to add a few items to it!
+        
+        if list.public_list
+          p Your list will be published as soon as you add at least one thing to it.
+      else
+        h1 Add to 
+          span.text-info #{list.name}
+        
+          
+      form(action=list.url + "/add", method="post")
+        p Add items here.
+        button.btn.btn-success(type="submit") Add Items
+      
+      p
+        a(href="/user") I'll add an item later.
+      
+    else if list.allow_submissions && list.public_list
+      h1 Add to 
+        span.text-secondary #{list.name}
+      
+      form(action=list.url + "/add", method="post")
+        p Submit items here.
+        button.btn.btn-success(type="submit") Add Items
+      
+      p
+        a(href="/user") I'll add an item later.
+      
+    else
+      h1 Woops!
+      p Sorry, this list is not accepting submissions right now.
+    
+      p
+        a(href="/login") Sign in
+      p
+        a(href="/help") Get help
+    p
+      a(href="/") Go Home
+ 
+ 

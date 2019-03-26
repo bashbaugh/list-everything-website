@@ -54,7 +54,7 @@ exports.new_post = [
     
     list.save(function (err) {
       if (err) { return next(err); }
-        res.redirect(list.url);
+        res.redirect(list.url + "/add?first=true");
     });
   }
   
@@ -81,4 +81,25 @@ exports.list_detail = function(req, res, next) {
   } else {
     next();
   }
+}
+
+exports.list_add_get = function(req, res, next) {
+  if (shortid.isValid(req.params.list_id)) {
+    List.findOne({url_id: req.params.list_id})
+    .populate('contents author')
+    .exec(function(err, list) {
+      if (err) return next(err);
+      if (list==null) {
+        var err = new Error("List not found");
+        err.status = 404;
+        return next(err);
+      }
+      
+      res.render('list_add', {config: global.gConfig, list: list, req: req});
+    });
+  }
+}
+
+exports.list_add_post = function(req, res, next) {
+  res.send("NOT IMPLEMENTED");
 }

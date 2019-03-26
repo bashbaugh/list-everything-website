@@ -6,14 +6,18 @@ block content
     h2 #{user.username}'s lists
     
     if !req.user || req.user._id.toString() != user._id.toString()
-      p Sorry, you can't look at someone else's lists yet.
+      ul
+        each list in user_lists
+          if list.public_list
+            li.list-list
+              a(href= list.url)= list.name
     else
       ul
         each list in user_lists
           li.list-list
             a(href= list.url)= list.name
       
-    
+    hr
     if req.user
       p
         a(href="/logout") Sign Out

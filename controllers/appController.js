@@ -13,6 +13,10 @@ exports.about = function(req, res) {
   res.render('about', { config: global.gConfig, req: req });
 }
 
+exports.contact = function(req, res) {
+  res.render('contact', { config: global.gConfig, req: req });
+}
+
 exports.login_get = function(req, res) {
   res.render('login', {config: global.gConfig,
     error: req.flash('error'), req: req

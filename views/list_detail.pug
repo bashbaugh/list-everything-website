@@ -5,10 +5,10 @@ block head
 
 block content
   div.home-center
-    h1 #{list.name}
+    if list.public_list || (req.user && req.user._id.toString() == list.author._id.toString())
+      h1 #{list.name}
 
-    if (req.user)
-      if req.user._id.toString() == list.author._id.toString()
+      if req.user && req.user._id.toString() == list.author._id.toString()
         p
           if list.public_list
             span.badge.badge-success public
@@ -40,13 +40,23 @@ block content
             
           a(href="/" + list.url_id + "/settings") 
             span.badge.badge-dark change settings
-    
-    p #{list.description}
-    
-    if list.contents.length == 0
-      p This list is empty. 
-        a(href="/" + list.url_id + "/add") Add some items.
-    
+      
+      p #{list.description}
+      
+      if list.contents.length == 0
+        p This list is empty. 
+          a(href="/" + list.url_id + "/add") Add some items.
+    else
+      h1 Access Denied
+      if !req.user
+        p Sorry, this list is private so you cannot access it. If this is your list, try signing in and then trying again.
+        p
+          a(href="/login") Sign in
+      else
+        p Sorry, this list is private so you cannot access it.
+        
+      p
+        a(href="/help") Get help
     p
       a(href="/") Go Home
  

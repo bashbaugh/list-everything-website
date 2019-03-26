@@ -14,4 +14,7 @@ router.get('/explore', listController.explore);
 
 router.get('/:list_id', listController.list_detail);
 
+router.get('/:list_id/add', ensureAuthenticated, listController.list_add_get);
+router.post('/:list_id/add', ensureAuthenticated, listController.list_add_post);
+
 module.exports = router;
