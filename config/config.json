@@ -1,7 +1,8 @@
 {
     "development": {
         "config_id": "development",
-        "app_name": "Listr",
+        "app_name": "ListHack",
+        "app_description": "A website of lists. Find the best online resources, tutorials, tips, tricks, and more.",
         "db_uri": "mongodb+srv://admin:pwd@cluster0-1zlqi.mongodb.net/list0?retryWrites=true",
         "secret": "gfagKJDGHFYewugIEUF"
     },

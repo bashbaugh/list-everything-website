@@ -1,8 +1,11 @@
 extends layout
 
+block head
+  title= config.app_name
+
 block content
   div.home-center
-    h1= title
+    h1= config.app_name
     div.top-pad.container.row
       div.col-sm
         a(href="/new")

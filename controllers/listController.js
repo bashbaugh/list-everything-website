@@ -7,7 +7,7 @@ var { check, validationResult } = require('express-validator/check');
 var { sanitizeBody } = require('express-validator/filter');
 
 exports.new_get = function (req, res) {
-  res.render('new_list', {title: "Create a new list - " + global.gConfig.app_name, user: req.user, csrf: req.csrfToken() });
+  res.render('new_list', {config: global.gConfig, req: req, csrf: req.csrfToken() });
 }
 
 exports.new_post = [
@@ -48,7 +48,7 @@ exports.new_post = [
     });
     
     if (!errors.isEmpty()) {
-      res.render('new_list', { title: 'New list', error: errors.array()[0].msg, user: req.user, csrf: req.csrfToken()});
+      res.render('new_list', {config: global.gConfig, error: errors.array()[0].msg, req: req, csrf: req.csrfToken()});
       return;
     }
     
@@ -61,7 +61,7 @@ exports.new_post = [
 ];
 
 exports.explore = function(req, res) {
-  res.render('explore', {title: "Explore lists on " + global.gConfig.app_name, user: req.user});
+  res.render('explore', {config: global.gConfig, req: req});
 }
 
 exports.list_detail = function(req, res, next) {
@@ -76,7 +76,7 @@ exports.list_detail = function(req, res, next) {
         return next(err);
       }
       
-      res.render('list_detail', {title: list.name + " - " + global.gConfig.app_name, list: list, user: req.user});
+      res.render('list_detail', {config: global.gConfig, list: list, req: req});
     });
   } else {
     next();

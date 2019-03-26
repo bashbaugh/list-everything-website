@@ -1,5 +1,8 @@
 extends layout
 
+block head
+  title Explore Lists
+
 block content
   div.home-center
     h1 Explore Lists
@@ -7,7 +10,7 @@ block content
     
     p LOTS AND LOTS OF LISTS TO LOOK AT RIGHT HERE!
     
-    if (!user)
+    if (!req.user)
       p
         a(href="/login") Sign in or Register
     p

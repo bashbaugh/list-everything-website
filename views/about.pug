@@ -1,0 +1,17 @@
+extends layout
+
+block head
+  title About #{config.app_name}
+  
+block content
+  div.home-center
+    h1= config.app_name
+    p
+      em.text-info= config.app_description
+    
+    hr
+    p #{config.app_name} was created by Benjamin A. as a place where people could create lists and share them with others.
+    
+    a(href="/")
+      button.btn.btn-outline-info(type="button") Try it out!
+      

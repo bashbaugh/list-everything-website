@@ -1,5 +1,8 @@
 extends layout
 
+block head
+  title Create an account on #{config.app_name}
+
 block content
   div.home-center
     h1 Create an Account
@@ -9,7 +12,7 @@ block content
         input.form-control(type="text", name="username", placeholder="Username")
       div.form-group
         input.form-control(type="password", name="password", placeholder="Password")
-      button.btn.btn-dark(type="submit") Create Account
+      button.btn.btn-dark(type="submit" onclick="this.innerHTML='Creating account...'; this.classList.add('disabled');") Create Account
     p 
       a(href="/login") Already have an account? Click here.
     p

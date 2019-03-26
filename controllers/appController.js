@@ -6,23 +6,27 @@ passport = require('passport');
 
 
 exports.index = function(req, res) {
-  res.render('index', { title: global.gConfig.app_name, user: req.user, error: req.flash('error')});
+  res.render('index', { config: global.gConfig, req: req, error: req.flash('error')});
+}
+
+exports.about = function(req, res) {
+  res.render('about', { config: global.gConfig, req: req });
 }
 
 exports.login_get = function(req, res) {
-  res.render('login', {title: "Login to " + global.gConfig.app_name,
-    error: req.flash('error')
+  res.render('login', {config: global.gConfig,
+    error: req.flash('error'), req: req
   })
 }
 
 exports.register_get = function(req, res) {
-  res.render('register', {title: "Create an Account"})
+  res.render('register', {config: global.gConfig, req: req})
 }
 
 exports.register_post = function(req, res) {
   Account.register(new Account({username: req.body.username}), req.body.password, function (err, account) {
     if (err) {
-      return res.render('register', {error: err.message});
+      return res.render('register', {error: err.message, req: req, config: global.gConfig});
     }
     
     passport.authenticate('local')(req, res, function () {
@@ -30,7 +34,7 @@ exports.register_post = function(req, res) {
         if (err) {
           return next(err);
         }
-        res.redirect('/');
+        res.redirect('/about');
       });
     });
   });

@@ -1,12 +1,15 @@
 extends layout
 
+block head
+  title Create a new list
+
 block content
   div.home-center
     h1 Create a new list
-    if (user)
-      p Welcome #{user.username}. Create a new list below.
+    if (req.user)
+      p Welcome #{req.user.username}. Create a new list below.
     else
-      p Welcome. Create a new list below. You will be recorded as a guest.
+      p PLEASE SIGN IN BEFORE CREATING A LIST
     
     hr
     form(action="/new", method="post")
@@ -52,11 +55,8 @@ block content
           strong By pressing the "Create List" button below, you confirm that this list's title, description, and intended contents are not rude, offensive, or NSFW-rated. Submission of offensive or NSFW lists will result in a permanent ban of your account.
       br
       br
-      button.btn.btn-dark(type="submit") Create List
+      button.btn.btn-dark(type="submit" onclick="this.innerHTML='Creating list...'; this.classList.add('disabled');") Create List
     
-    if (!user)
-      p
-        a(href="/login") Sign in or Register
     p
       a(href="/") Cancel
 

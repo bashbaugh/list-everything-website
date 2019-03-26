@@ -1,7 +1,37 @@
 div.menu(id="menu")
-  nav
-    ul
-      li
-        a(href="/") Go Home
-      li
-        a(href="/test") test link
+  nav.row
+    div.col-md-4
+      div.menu-description
+        h3 #{config.app_name}
+        p.text-muted #{config.app_description}
+    div.col-md-4
+      ul
+        li
+          a(href="/") Home
+        li
+          a(href="/new") New List
+        li
+          a(href="/explore") Explore Lists
+        if (req.user)
+          li
+            a(href="/user") My Lists & Account
+          li
+            a(href="/logout") Sign Out
+        else
+          li
+            a(href="/login") Sign In
+          li 
+            a(href="/register") Create Account
+    div.col-md-4
+      ul
+        li
+          a(href="/about") About #{config.app_name}
+        li
+          a(href="/contact") Contact Us
+        li
+          a(href="/help") Help
+        li
+          a(href="/privacy-tos") Privacy & Terms
+  hr
+  div
+    small Copyright &copy; 2019 Benjamin A. - All rights reserved.

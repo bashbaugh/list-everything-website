@@ -2,9 +2,20 @@ extends layout
 
 block content
   div.home-center
-    p This is #{username}'s profile.
     
-    p
-      a(href="/logout") Sign Out
+    h2 #{user.username}'s lists
+    
+    if !req.user || req.user._id.toString() != user._id.toString()
+      p Sorry, you can't look at someone else's lists yet.
+    else
+      ul
+        each list in user_lists
+          li.list-list
+            a(href= list.url)= list.name
+      
+    
+    if req.user
+      p
+        a(href="/logout") Sign Out
     p
       a(href="/") Cancel

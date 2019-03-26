@@ -1,11 +1,14 @@
 extends layout
 
+block head
+  title #{list.name} - #{config.app_name}
+
 block content
   div.home-center
     h1 #{list.name}
 
-    if user != undefined
-      if user._id.toString() == list.author._id.toString()
+    if (req.user)
+      if req.user._id.toString() == list.author._id.toString()
         p
           if list.public_list
             span.badge.badge-success public
