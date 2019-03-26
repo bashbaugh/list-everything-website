@@ -16,6 +16,10 @@ block content
         input.form-control(required="true", type="text", name="name", placeholder="List name")
       div.form-group
         textarea.form-control(rows="3", name="description", placeholder="List description (optional)", maxlength="200")
+      div.form-group
+        label List Type
+        select.form-control(name="type")
+          option(value="standard") Standard List (default)
         hr
       div.form-group
         label Public?
@@ -32,14 +36,14 @@ block content
       div.form-group
         label Allow submissions to list?
         br
-        input.form-control(type="checkbox", id="moderate-checkbox", name="allow-submissions", data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
+        input.form-control(type="checkbox", id="moderate-checkbox", name="allow_submissions", data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
         small.form-text.text-muted If you choose yes, then other users will be able to submit items to your list.
         hr
       div.collapse(id="moderate-collapse")
         div.form-group
           label Premoderate submissions?
           br
-          input.form-control(type="checkbox", name="moderate-submissions", checked, data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
+          input.form-control(type="checkbox", name="moderate_submissions", checked, data-toggle="toggle", data-on="Yes >", data-off="< No", data-onstyle="info", data-offstyle="primary", data-width="100")
           small.form-text.text-muted If you select this option, then all submissions will have to be accepted by you before they are published.
           hr
       

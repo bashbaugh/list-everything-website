@@ -1,15 +1,23 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
-var ListItemSchema = require('./list_item');
+// var ListItemSchema = new Schema({
+//   name: {type: String, required: true},
+//   votes: {type: Number}
+// });
 
 var ListSchema = new Schema({
   name: {
     type: String, 
     required: [true, "name required"],
     minlength: [3, "name must be at least 3 characters long"]},
+  url_id: {
+    type: String,
+    default: shortid.generate
+  },
   author: {
-    type: Schema.types.ObjectId, 
+    type: Schema.Types.ObjectId, 
     ref: 'Account', 
     required: [true, "author required"]},
   description: {
@@ -29,20 +37,19 @@ var ListSchema = new Schema({
   },
   moderate_submissions: {
     type: Boolean
-  }
-  created: {
-    type: Date,
-    required: true
   },
   public_list: {
     type: Boolean,
     required: true
   },
-  contents: [ListItemSchema]
+  contents: [{
+    type: Schema.Types.ObjectId,
+    ref: 'ListItem'
+    }]
 });
 
 ListSchema.virtual('url').get(function() {
-  return '/' + this._id;
+  return '/' + this.url_id;
 });
 
 module.exports = mongoose.model('List', ListSchema);

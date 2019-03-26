@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  div.home-center
+    h1 #{list.name}
+
+    if user != undefined
+      if user._id.toString() == list.author._id.toString()
+        p
+          if list.public_list
+            span.badge.badge-success public
+          else 
+            span.badge.badge-info private
+            
+          |  
+            
+          if list.votable
+            span.badge.badge-info item positions based on votes
+          else 
+            span.badge.badge-info item positions fixed
+          
+          |  
+          
+          if list.allow_submissions
+            span.badge.badge-info submissions allowed
+            |  
+            if list.moderate_submissions
+              span.badge.badge-info submissions premoderated
+            else 
+              span.badge.badge-info all submissions accepted
+          else 
+            span.badge.badge-info submissions blocked
+          
+          |  
+          
+          span.badge.badge-info #{list.list_type} list
+            
+          a(href="/" + list.url_id + "/settings") 
+            span.badge.badge-dark change settings
+    
+    p #{list.description}
+    
+    if list.contents.length == 0
+      p This list is empty. 
+        a(href="/" + list.url_id + "/add") Add some items.
+    
+    p
+      a(href="/") Go Home
+ 

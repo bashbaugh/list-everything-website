@@ -1,7 +1,7 @@
 {
     "development": {
         "config_id": "development",
-        "app_name": "ListBuffet",
+        "app_name": "Listr",
         "db_uri": "mongodb+srv://admin:pwd@cluster0-1zlqi.mongodb.net/list0?retryWrites=true",
         "secret": "gfagKJDGHFYewugIEUF"
     },

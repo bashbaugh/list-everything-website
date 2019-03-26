@@ -12,4 +12,6 @@ router.post('/new', ensureAuthenticated, csrfProt, listController.new_post);
 
 router.get('/explore', listController.explore);
 
+router.get('/:list_id', listController.list_detail);
+
 module.exports = router;
