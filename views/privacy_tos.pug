@@ -1,0 +1,33 @@
+extends layout
+
+block head
+  title Privacy & Terms - #{config.app_name}
+  
+block content
+  div.alert.alert-danger.fade.alert-fixed(id="dont-use")
+        strong If you disagree to our Privacy Policy or ToS, please do not use this site.
+        
+  div.home-center
+    h1 Privacy Policy and Terms of Service
+    p Here is our Privacy Policy and Terms of Service (ToS). If you have any questions, you may 
+      a(href="/contact") contact us.
+    
+    h2 Privacy Policy
+    div
+      p We use cookies blah blah blah
+      
+    h2 Terms of Service (ToS)
+    div
+      p Follow the rules blah blah blah
+      
+    
+    br
+    a(href="/")
+      button.btn.btn-danger(type="button") I agree to the Privacy Policy and ToS
+    br
+    br
+    button.btn.btn-outline-secondary(type="button", onclick="$('#dont-use').addClass('show');") I DO NOT agree to the Privacy Policy or ToS.
+      
+      
+ 
+ 

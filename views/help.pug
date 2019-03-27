@@ -1,0 +1,34 @@
+extends layout
+
+block head
+  title #{config.app_name} Help
+  
+block content
+  div.home-center
+    h1 Help FAQ
+    p Below are some Frequently Asked Questions about this site. If you don't find what you are looking for, please 
+      a(href="/contact") contact us.
+    
+    div.accordion#FAQ
+      div.card
+        div.card-header#headingOne
+          h5
+            button.btn.btn-link(type="button", data-toggle="collapse", data-target="#collapseOne") How do I get back to the homepage intro? 
+        div.collapse#collapseOne(data-parent="#FAQ")
+          div.card-body
+            | Go to 
+            a(href=config.app_url + "/?intro=true") #{config.app_url + "/?intro=true"}
+      div.card
+        div.card-header#headingTwo
+          h5
+            button.btn.btn-link(type="button", data-toggle="collapse", data-target="#collapseTwo") Another Question?
+        div.collapse#collapseTwo(data-parent="#FAQ")
+          div.card-body
+            | Another answer.
+    
+    br
+    
+    a(href="/") Go Home
+      
+ 
+ 

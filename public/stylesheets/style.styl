@@ -8,8 +8,11 @@
  * 
 */
 
+bg-color = #e2e2e2
+bg-color2 = #eeeeee
+
 body {
-  background-color: #e2e2e2;
+  background-color: bg-color;
 }
 
 .home-center {
@@ -98,4 +101,26 @@ ul {
 
 li {
   list-style-type: none;
+}
+
+.alert-fixed {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 10;
+}
+
+.card-header, .card {
+  background-color: bg-color2;
+  border-radius: 10px;
+  margin: auto;
+  width: 90%;
+}
+
+.card-body {
+  background-color: white;
+}
+
+.tiny {
+  font-size: 40%;
 }

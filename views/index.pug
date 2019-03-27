@@ -4,6 +4,34 @@ block head
   title= config.app_name
 
 block content
+  if req.query.intro == "true"
+    div.modal.fade#intro(tabindex="-1", role="dialog")
+      div.modal-dialog.modal-content
+        div.modal-header
+          h5.modal-title Welcome to #{config.app_name}
+        div.modal-body
+          p Welcome to #{config.app_name}: #{config.app_description} Here we'll give you a short tour of the homepage.
+          
+          p On the homepage (you're on it right now), you'll find three buttons: New List, Explore, and My Lists. Click on New List to create a new list. Click on Explore to explore all the public lists others have created. Click on My Lists to view your own lists and account. 
+          
+          p If you click on My Lists or New List, you will be asked to login if you aren't already. However anyone's profile and public lists can be viewed by anyone, even if they aren't logged in.
+          
+          p In the bottom left corner you'll find a hamburger menu (three lines). Clicking on it will reveal a menu that contains links to sign out, go home, create a list, get help, contact us, and more. It is accessible from anywhere on the website.
+          
+          p Remember, if you need any more help, you can find the 
+            a(href="/help") help FAQ 
+            | in the menu (at the bottom left).
+            
+          p We're looking forward to seeing all of your awesome lists! (But if you're just using this site for private lists, that's fine too.)
+          
+        div.modal-footer
+          if !req.user
+            button.btn.btn-outline-secondary(type="button", data-dismiss="modal") Close
+            a(href="/register")
+              button.btn.btn-success(type="button") Create an account
+          else
+            button.btn.btn-outline-success(type="button", data-dismiss="modal") Close
+          
   div.home-center
     h1= config.app_name
     div.top-pad.container.row
@@ -16,4 +44,18 @@ block content
       div.col-sm
         a(href="/user")
           div.home-button My Lists
+          
+block js
+  script.
+    $(document).ready(function() {
+      $('#intro').modal();
+      $('#intro').on('hidden.bs.modal', function(e) {
+        window.history.pushState({},"", location.href.replace("intro=true", ""));
+      })
+      window.onpopstate = function(e){
+        if(location.href.search(/intro=true/i) != -1) { 
+          $('#intro').modal();
+        }
+      };
+    });
             

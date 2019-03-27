@@ -8,6 +8,9 @@ var appController = require('../controllers/appController.js')
 router.get('/', appController.index);
 router.get('/about', appController.about);
 router.get('/contact', appController.contact);
+router.get('/help', appController.help);
+router.get('/privacy-tos', appController.privacy_tos);
+
 router.get('/login', appController.login_get);
 router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), appController.login_after_post);
 router.get('/register', appController.register_get);

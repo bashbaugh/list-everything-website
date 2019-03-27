@@ -17,6 +17,14 @@ exports.contact = function(req, res) {
   res.render('contact', { config: global.gConfig, req: req });
 }
 
+exports.help = function(req, res) {
+  res.render('help', { config: global.gConfig, req: req });
+}
+
+exports.privacy_tos = function(req, res) {
+  res.render('privacy_tos', { config: global.gConfig, req: req });
+}
+
 exports.login_get = function(req, res) {
   res.render('login', {config: global.gConfig,
     error: req.flash('error'), req: req
@@ -38,7 +46,7 @@ exports.register_post = function(req, res) {
         if (err) {
           return next(err);
         }
-        res.redirect('/about');
+        res.redirect('/?intro=true&account=created');
       });
     });
   });
