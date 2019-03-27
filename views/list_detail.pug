@@ -42,10 +42,20 @@ block content
             span.badge.badge-dark change settings
       
       p #{list.description}
+          
       
       if list.contents.length == 0
         p This list is empty. 
           a(href="/" + list.url_id + "/add") Add some items.
+      else
+        h3 List contents
+        hr
+        ul
+          each item in list.contents
+            li= item.name
+        hr
+        p
+          a(href="/" + list.url_id + "/add") Add more items.
     else
       h1 Access Denied
       if !req.user

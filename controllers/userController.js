@@ -12,6 +12,11 @@ exports.user_detail = function(req, res, next) {
     function(callback) {
       Account.findOne({username: req.params.username}, 'username')
       .exec(function (err, user) {
+        if (user == null) { // No results.
+            var err = new Error('User not found');
+            err.status = 404;
+            return next(err);
+        }
         callback(err, user);
       });
     },
@@ -24,11 +29,6 @@ exports.user_detail = function(req, res, next) {
     }
   ], function(err, user_lists, user) {
     if (err) { return next(err); }
-    if (user==null) { // No results.
-            var err = new Error('User not found');
-            err.status = 404;
-            return next(err);
-    }
     res.render('user_detail', {config: global.gConfig, req: req, user: user, user_lists: user_lists});
   });
 }

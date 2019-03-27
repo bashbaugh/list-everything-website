@@ -2,8 +2,11 @@ div.menu(id="menu")
   nav.row
     div.col-md-4
       div.menu-description
-        h3 #{config.app_name}
-        p.text-muted #{config.app_description}
+        h3= config.app_name
+        p.text-muted= config.app_description
+        p
+          i= config.app_slogan
+          
     div.col-md-4
       ul
         li

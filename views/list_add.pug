@@ -5,7 +5,7 @@ block head
 
 block content
   div.home-center
-    if req.user && req.user._id.toString() == list.author._id.toString()
+    if req.user._id.toString() == list.author._id.toString()
       if req.query.first == "true" && list.contents.length == 0
         h1 Finish creating 
           span.text-info #{list.name}
@@ -17,25 +17,10 @@ block content
       else
         h1 Add to 
           span.text-info #{list.name}
-        
-          
-      form(action=list.url + "/add", method="post")
-        p Add items here.
-        button.btn.btn-success(type="submit") Add Items
-      
-      p
-        a(href="/user") I'll add an item later.
       
     else if list.allow_submissions && list.public_list
-      h1 Add to 
-        span.text-secondary #{list.name}
-      
-      form(action=list.url + "/add", method="post")
-        p Submit items here.
-        button.btn.btn-success(type="submit") Add Items
-      
-      p
-        a(href="/user") I'll add an item later.
+      h1 Submit to 
+        span.text-info #{list.name}
       
     else
       h1 Woops!
@@ -45,7 +30,30 @@ block content
         a(href="/login") Sign in
       p
         a(href="/help") Get help
+    if (list.allow_submissions && list.public_list) || (req.user._id.toString() == list.author._id.toString())
+      p Add as many items as you want below. Click on the x at the right of an item to remove that item.
+    
+      form(action=list.url + "/add", method="post")
+        div#items
+          div.item.form-group#0
+            label.badge.badge-dark #1
+            div.input-group
+              input.form-control(required="true", type="text", name="0", placeholder="Item name")
+              div.input-group-append
+                button.input-group-text(disabled type="button", onclick="remove(this)") &times;
+            
+        p
+          button.btn.btn-outline-success(type="button", onclick="add()") [+] Another item
+        button.btn.btn-primary(type="submit") Save items
+      
+      if req.query.first == "true"
+        p
+          a(href="/user") I'll finish the list later.
+    
     p
       a(href="/") Go Home
+      
+block js
+  script(src="/javascripts/list_add_form.js")
  
  

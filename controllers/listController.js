@@ -2,6 +2,7 @@ var List = require('../models/list');
 var ListItem = require('../models/list_item');
 var shortid = require('shortid');
 var async = require('async');
+var _ = require('underscore');
 
 var { check, validationResult } = require('express-validator/check');
 var { sanitizeBody } = require('express-validator/filter');
@@ -98,8 +99,60 @@ exports.list_add_get = function(req, res, next) {
       res.render('list_add', {config: global.gConfig, list: list, req: req});
     });
   }
+  else {
+    var err = new Error("Invalid list code");
+    err.status = 404;
+    return next(err);
+  }
 }
 
-exports.list_add_post = function(req, res, next) {
-  res.send("NOT IMPLEMENTED");
-}
+exports.list_add_post = [
+//   check('*', "List items must be shorter than 100 characters")
+//   .isLength({min: 1, max: 100})
+//   .trim(),
+  
+  sanitizeBody('*').trim().escape(),
+  
+  (req, res, next) => {
+    if (shortid.isValid(req.params.list_id)) {
+      List.findOne({url_id: req.params.list_id})
+      .populate('contents author')
+      .exec(function(err, list) {
+        if (err) return next(err);
+        if (list==null) {
+          var err = new Error("List not found");
+          err.status = 404;
+          return next(err);
+        }
+        
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+          res.render('list_add', {config: global.gConfig, error: errors.array()[0].msg, req: req, list: list});
+          return;
+        }
+        
+        for (i = 0; i < _.size(req.body); i++) {
+          let item = new ListItem({
+            name: req.body[i],
+            votes: 0
+          });
+          item.save(function (err) {
+            if (err) { return next(err); }
+          });
+          list.contents.push(item);
+          list.save(function (err) {
+            if (err) {return next(err);}
+          });
+        }
+        
+        res.redirect("/" + req.params.list_id);
+          });
+    }
+    else {
+      var err = new Error("Invalid list code");
+      err.status = 404;
+      return next(err);
+    }
+  }
+]

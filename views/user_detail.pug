@@ -1,9 +1,14 @@
 extends layout
 
+block head
+  title #{user.username} on #{config.app_name}
+
 block content
   div.home-center
-    h1= user.username
-      span.text-muted.tiny &nbsp; (you)
+    h1 #{user.username} 
+      if req.user && (req.user._id.toString() == user._id.toString())
+        span.badge.badge-pill.badge-light.tiny-text you
+    hr
     
     h2 #{user.username}'s lists
     
@@ -13,11 +18,17 @@ block content
           if list.public_list
             li.list-list
               a(href= list.url)= list.name
+      if user_lists.length == 0
+        p This user does not have any lists.
+        
     else
       ul
         each list in user_lists
           li.list-list
             a(href= list.url)= list.name
+      if user_lists.length == 0
+        p You don't have any lists yet! Would you like to 
+          a(href="/new") create one?
       
     hr
     if req.user
