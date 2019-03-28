@@ -134,7 +134,7 @@ exports.list_add_post = [
         
         for (i = 0; i < _.size(req.body); i++) {
           let item = new ListItem({
-            name: req.body[i],
+            name: req.body[(i + list.contents.length).toString()],
             votes: 0
           });
           item.save(function (err) {

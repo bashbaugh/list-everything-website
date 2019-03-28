@@ -1,7 +1,10 @@
 extends layout
 
 block head
-  title Add items to #{list.name}
+  if (list.allow_submissions && list.public_list) || (req.user._id.toString() == list.author._id.toString())
+    title Add items to #{list.name}
+  else 
+    title Add items to list
 
 block content
   div.home-center
@@ -23,24 +26,26 @@ block content
         span.text-info #{list.name}
       
     else
-      h1 Woops!
-      p Sorry, this list is not accepting submissions right now.
+      h1 Sorry, 
+      p This list is not accepting submissions right now.
     
-      p
-        a(href="/login") Sign in
+      if req.user
+        p
+          a(href="/login") Sign in
       p
         a(href="/help") Get help
+        
     if (list.allow_submissions && list.public_list) || (req.user._id.toString() == list.author._id.toString())
       p Add as many items as you want below. Click on the x at the right of an item to remove that item.
     
       form(action=list.url + "/add", method="post")
         div#items
-          div.item.form-group#0
-            label.badge.badge-dark #1
+          div.item.form-group(id=list.contents.length.toString())
+            label.badge.badge-dark Item ##{list.contents.length + 1}
             div.input-group
-              input.form-control(required="true", type="text", name="0", placeholder="Item name")
+              input.form-control(required="true", type="text", name=list.contents.length.toString(), placeholder="Item name")
               div.input-group-append
-                button.input-group-text(disabled type="button", onclick="remove(this)") &times;
+                button.input-group-text(type="button", onclick="remove(this)") &times;
             
         p
           button.btn.btn-outline-success(type="button", onclick="add()") [+] Another item

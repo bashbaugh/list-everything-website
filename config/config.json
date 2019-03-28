@@ -1,7 +1,7 @@
 {
     "development": {
         "config_id": "development",
-        "app_name": "ListBuffet",
+        "app_name": "ListHack",
         "app_url": "http://localhost:3000",
         "app_description": "A website of lists. Find the best online resources, tutorials, tips, tricks, and more.",
         "app_slogan": "Because everything is better with a list!",
