@@ -55,7 +55,7 @@ exports.new_post = [
     
     list.save(function (err) {
       if (err) { return next(err); }
-        res.redirect(list.url + "/add?first=true");
+      res.redirect(list.url + "/add?first=true");
     });
   }
   
@@ -118,7 +118,7 @@ exports.list_add_post = [
       List.findOne({url_id: req.params.list_id})
       .populate('contents author')
       .exec(function(err, list) {
-        if (err) return next(err);
+        if (err) {return next(err);}
         if (list==null) {
           var err = new Error("List not found");
           err.status = 404;
@@ -134,25 +134,25 @@ exports.list_add_post = [
         
         for (i = 0; i < _.size(req.body); i++) {
           let item = new ListItem({
-            name: req.body[(i + list.contents.length).toString()],
+            name: req.body[list.contents.length.toString()],
             votes: 0
           });
           item.save(function (err) {
             if (err) { return next(err); }
           });
           list.contents.push(item);
-          list.save(function (err) {
-            if (err) {return next(err);}
-          });
         }
         
-        res.redirect("/" + req.params.list_id);
-          });
-    }
-    else {
+        list.save(function (err) {
+            if (err) {return next(err);}
+            res.redirect(list.url);
+        });
+      });
+    } else {
+      console.log("OOOOFFFFFFFFFFF");
       var err = new Error("Invalid list code");
       err.status = 404;
       return next(err);
     }
   }
-]
+];

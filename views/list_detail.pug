@@ -1,7 +1,10 @@
 extends layout
 
 block head
-  title #{list.name} - #{config.app_name}
+  if list.public_list || (req.user && req.user._id.toString() == list.author._id.toString())
+    title #{list.name} - #{config.app_name}
+  else 
+    title #{config.app_name}
 
 block content
   div.home-center
