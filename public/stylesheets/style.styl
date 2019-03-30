@@ -8,11 +8,31 @@
  * 
 */
 
+// Background colors
+
 bg-color = #e2e2e2
 bg-color2 = #eeeeee
 
+// Anchor/button colors
+
+primary-anchor-color = #1e82fc
+
+link-item-header-color = #1e82fc
+
+// Other colors
+
+focus-underline-color = #b2b2b2
+
 body {
   background-color: bg-color;
+}
+
+a {
+  color: primary-anchor-color;
+  &:focus {
+    outline: 0;
+    border-bottom: 1px dashed focus-underline-color;
+  }
 }
 
 .home-center {
@@ -110,7 +130,7 @@ li {
   z-index: 10;
 }
 
-.card.help-card {
+.help-card {
   background-color: bg-color2;
   border-radius: 10px;
   margin: auto;
@@ -119,6 +139,23 @@ li {
 
 .help-card .card-body {
   background-color: white;
+}
+
+.list-item-header {
+  span {color: link-item-header-color;}
+  background: none;
+  border: none;
+  &:focus {
+    outline: 0;
+    border-bottom: 1px dashed focus-underline-color;
+  }
+}
+
+/* button:focus, button:active { outline:0 !important; } */
+
+.list-item-card {
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .tiny-text {

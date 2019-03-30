@@ -51,14 +51,34 @@ block content
         p This list is empty. 
           a(href="/" + list.url_id + "/add") Add some items.
       else
-        h3 List contents
         hr
-        ul
-          each item in list.contents
-            li= item.name
+        div.accordion#list_accordion
+          each item, position in list.contents
+            div(id = "iheading" + position)
+              h5
+                button.list-item-header(type="button", data-toggle="collapse", data-target="#icollapse" + position)
+                  small.text-muted #{position + 1} 
+                  span #{item.name} 
+                  small.text-muted #{item.votes} 
+                    i.fa.fa-chevron-up
+            div.collapse.list-item-card(id= "icollapse" + position, data-parent= "#list_accordion")
+              | #{item.votes} Votes. 
+              a(href="#")
+                i.fa.fa-arrow-up
+                |  Upvote
+            
         hr
-        p
-          a(href="/" + list.url_id + "/add") Add more items.
+        if (req.user && req.user._id.toString() == list.author._id.toString())
+          p
+            a(href="/" + list.url_id + "/add") Add more items.
+        else if list.allow_submissions
+          p
+            a(href="/" + list.url_id + "/add") Submit an item.
+        hr
+        h3 Comments
+        p Comments coming soon!
+        hr
+          
     else
       h1 Access Denied
       if !req.user

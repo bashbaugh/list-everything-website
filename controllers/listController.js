@@ -156,3 +156,5 @@ exports.list_add_post = [
     }
   }
 ];
+
+exports.list_upvote
