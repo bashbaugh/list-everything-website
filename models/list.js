@@ -45,7 +45,11 @@ var ListSchema = new Schema({
   contents: [{
     type: Schema.Types.ObjectId,
     ref: 'ListItem'
-    }]
+    }],
+  stars: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  }]
 });
 
 ListSchema.virtual('url').get(function() {

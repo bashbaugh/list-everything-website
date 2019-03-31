@@ -157,4 +157,28 @@ exports.list_add_post = [
   }
 ];
 
-exports.list_upvote
+exports.list_upvote = function(req, res, next) {
+  
+}
+
+exports.list_star = function(req, res, next) {
+  if (shortid.isValid(req.params.list_id)) {
+    List.findOne({url_id: req.params.list_id})
+    .populate('contents author')
+    .exec(function(err, list) {
+      if (err) return next(err);
+      if (list==null) {
+        var err = new Error("List not found");
+        err.status = 404;
+        return next(err);
+      }
+      
+      res.send(JSON.stringify({completed: "star"}));
+    });
+  }
+  else {
+    var err = new Error("Invalid list code");
+    err.status = 404;
+    return next(err);
+  }
+}

@@ -10,6 +10,11 @@ block content
   div.home-center
     if list.public_list || (req.user && req.user._id.toString() == list.author._id.toString())
       h1 #{list.name}
+      
+      div
+        button.btn.btn-sm.btn-light(type="button", onclick="star('star')") 
+          i.fa.fa-star
+          |  Favorite
 
       if req.user && req.user._id.toString() == list.author._id.toString()
         p
@@ -44,14 +49,15 @@ block content
           a(href="/" + list.url_id + "/settings") 
             span.badge.badge-dark change settings
       
+      hr
       p #{list.description}
           
       
+      hr
       if list.contents.length == 0
         p This list is empty. 
           a(href="/" + list.url_id + "/add") Add some items.
       else
-        hr
         div.accordion#list_accordion
           each item, position in list.contents
             div(id = "iheading" + position)
@@ -92,4 +98,7 @@ block content
         a(href="/help") Get help
     p
       a(href="/") Go Home
+      
+block js
+  script(src="/javascripts/list_detail.js")
  
