@@ -58,14 +58,22 @@ block content
             span.badge.badge-dark change settings
             
       if req.user
-        button.btn.btn-sm.btn-light#favorite-btn(type="button", onclick="star('star')") 
-          i.fa.fa-star#favorite-star
-          span#favorite-text  Favorite
+        if !(list.stars.indexOf(req.user._id) > -1)
+          button.btn.btn-sm.btn-light#favorite-btn(type="button", onclick="star('star')") 
+            i.fa.fa-star#favorite-star
+            span#favorite-text  Favorite 
+            span.badge.badge-pill.badge-dark#favorite-count= list.stars.length
+        else
+          button.btn.btn-sm.btn-warning#favorite-btn(type="button", onclick="star('unstar')") 
+            i.fa.fa-star#favorite-star
+            span#favorite-text  Favorited 
+            span.badge.badge-pill.badge-light#favorite-count= list.stars.length
       else 
-        a(href="/login?next=" + req.url)
+        a(href="/login?next=" + encodeURIComponent(req.url))
           button.btn.btn-sm.btn-light#favorite-btn(type="button") 
             i.fa.fa-star#favorite-star
-            span#favorite-text  Favorite
+            span#favorite-text  Favorite 
+            span.badge.badge-pill.badge-dark#favorite-count= list.stars.length
       
       hr
       p #{list.description}
@@ -87,7 +95,7 @@ block content
                     i.fa.fa-chevron-up
             div.collapse.list-item-card(id= "icollapse" + position, data-parent= "#list_accordion")
               | #{item.votes} Votes. 
-              a(href="#")
+              button.btn.btn-sm.btn-link(type="button")
                 i.fa.fa-arrow-up
                 |  Upvote
             

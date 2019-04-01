@@ -1,5 +1,6 @@
 function star(action) {
   $('#favorite-star').addClass('spinning');
+  $('#favorite-btn').attr('disabled', '');
   $.ajax({
     url: location.href + "/star",
     type: "POST",
@@ -10,20 +11,27 @@ function star(action) {
     timeout: 10000,
   })
   .done(function(data) {
-    if (data.completed == "error") {
-      $('#alert-ajax-error').addClass('show');
-    } else {
-      $('#favorite-btn').removeClass('btn-light btn-warning');
-    }
     if (data.completed == "star") {
+      $('#favorite-btn').removeClass('btn-warning btn-light');
       $('#favorite-btn').addClass('btn-warning');
       $('#favorite-btn').attr('onclick', "star('unstar')");
-      $('#favorite-text').html(" Favorited");
-    }
-    if (data.completed == "unstar") {
+      $('#favorite-text').html(" Favorited ");
+      $('#favorite-count').removeClass('badge-light badge-dark');
+      $('#favorite-count').addClass('badge-light');
+      // Increment counter:
+      $('#favorite-count')
+      .html((parseInt($('#favorite-count').html()) + 1).toString());
+    } else if (data.completed == "unstar") {
       $('#favorite-btn').addClass('btn-light');
       $('#favorite-btn').attr('onclick', "star('star')");
-      $('#favorite-text').html(" Favorite");
+      $('#favorite-text').html(" Favorite ");
+      $('#favorite-count').removeClass('badge-light badge-dark');
+      $('#favorite-count').addClass('badge-dark');
+      // Decrement counter:
+      $('#favorite-count')
+      .html((parseInt($('#favorite-count').html()) - 1).toString());
+    } else {
+      $('#alert-ajax-error').addClass('show');
     }
   })
   .fail(function() {
@@ -31,6 +39,7 @@ function star(action) {
   })
   .always(function() {
     $('#favorite-star').removeClass('spinning');
+    $('#favorite-btn').removeAttr('disabled');
   })
     
 } 

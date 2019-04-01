@@ -167,26 +167,32 @@ exports.list_star = function(req, res, next) {
     .populate('contents author')
     .exec(function(err, list) {
       if (err) return next(err);
-      if (list==null) {
+      if (list==null || !req.user) {
         res.send(JSON.stringify({completed: "error"}));
+        return;
       }
       
       if (req.body.action == "star") {
-        if (!list.contents.includes(req.user._id)) {
-          list.contents.push(req.user._id);
-          list.save(function (err) {
-            if (err) {
-              res.send(JSON.stringify({completed: "error"}));
-              return;
-            }
-          });
+        // Ensure that there is only one copy of the user in the stars array:
+        while (list.stars.indexOf(req.user._id) > -1) {
+          list.stars.splice(list.stars.indexOf(req.user._id), 1);
         }
+        list.stars.push(req.user._id);
+        list.save(function (err) {
+          if (err) {
+            res.send(JSON.stringify({completed: "error"}));
+            return;
+          }
+        });
         res.send(JSON.stringify({completed: "star"}));
         return;
       }
       if (req.body.action == "unstar") {
-        if (list.contents.includes(req.user._id)) {
-          list.contents.splice(list.contents.indexOf(req.user._id), 1);
+        if (list.stars.indexOf(req.user._id) > -1) {
+          // Remove all copies of user from stars array:
+          while (list.stars.indexOf(req.user._id) > -1) {
+            list.stars.splice(list.stars.indexOf(req.user._id), 1);
+          }
           list.save(function (err) {
             if (err) {
               res.send(JSON.stringify({completed: "error"}));
@@ -198,11 +204,11 @@ exports.list_star = function(req, res, next) {
         return;
       }
       res.send(JSON.stringify({completed: "error"}));
+      return;
     });
   }
   else {
-    var err = new Error("Invalid list code");
-    err.status = 404;
-    return next(err);
+    res.send(JSON.stringify({completed: "error"}));
+    return;
   }
 }

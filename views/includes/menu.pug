@@ -21,7 +21,7 @@ div.menu(id="menu")
           li
             a(href="/logout") Sign Out
         else
-          li #[a(href="/login?next=" + req.url) Sign In]
+          li #[a(href="/login?next=" + encodeURIComponent(req.url)) Sign In]
           li
             a(href="/register") Create Account
     div.col-md-4
