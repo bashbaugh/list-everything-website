@@ -7,14 +7,22 @@ block head
     title #{config.app_name}
 
 block content
+  div.alert.alert-danger.alert-dismissible.fade.alert-fixed#alert-ajax-error
+        strong That didn't work...
+        |  Please check your internet connection, reload this page, and try again.
+        button.close(type="button", onclick="alert_close(this)") 
+          span(aria-hidden="true") &times;
+
+  //div.alert.alert-danger.alert-dismissible.fade.alert-fixed#alert-ajax-404
+        //strong We could not contact our servers. 
+        //| Please check your internet connection and try again.
+        //button.close(type="button", onclick="alert_close(this)") 
+          //span(aria-hidden="true") &times;
+
   div.home-center
     if list.public_list || (req.user && req.user._id.toString() == list.author._id.toString())
       h1 #{list.name}
       
-      div
-        button.btn.btn-sm.btn-light(type="button", onclick="star('star')") 
-          i.fa.fa-star
-          |  Favorite
 
       if req.user && req.user._id.toString() == list.author._id.toString()
         p
@@ -48,6 +56,16 @@ block content
             
           a(href="/" + list.url_id + "/settings") 
             span.badge.badge-dark change settings
+            
+      if req.user
+        button.btn.btn-sm.btn-light#favorite-btn(type="button", onclick="star('star')") 
+          i.fa.fa-star#favorite-star
+          span#favorite-text  Favorite
+      else 
+        a(href="/login?next=" + req.url)
+          button.btn.btn-sm.btn-light#favorite-btn(type="button") 
+            i.fa.fa-star#favorite-star
+            span#favorite-text  Favorite
       
       hr
       p #{list.description}

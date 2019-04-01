@@ -166,3 +166,20 @@ li {
   text-decoration-line: underline;
   font-weight: bold;
 }
+
+@keyframes spinning {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.spinning {
+  animation: spinning 1s infinite linear;
+}
+
+.close {
+  position: relative;
+}

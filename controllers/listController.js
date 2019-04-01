@@ -168,12 +168,36 @@ exports.list_star = function(req, res, next) {
     .exec(function(err, list) {
       if (err) return next(err);
       if (list==null) {
-        var err = new Error("List not found");
-        err.status = 404;
-        return next(err);
+        res.send(JSON.stringify({completed: "error"}));
       }
       
-      res.send(JSON.stringify({completed: "star"}));
+      if (req.body.action == "star") {
+        if (!list.contents.includes(req.user._id)) {
+          list.contents.push(req.user._id);
+          list.save(function (err) {
+            if (err) {
+              res.send(JSON.stringify({completed: "error"}));
+              return;
+            }
+          });
+        }
+        res.send(JSON.stringify({completed: "star"}));
+        return;
+      }
+      if (req.body.action == "unstar") {
+        if (list.contents.includes(req.user._id)) {
+          list.contents.splice(list.contents.indexOf(req.user._id), 1);
+          list.save(function (err) {
+            if (err) {
+              res.send(JSON.stringify({completed: "error"}));
+              return;
+            }
+          });
+        }
+        res.send(JSON.stringify({completed: "unstar"}));
+        return;
+      }
+      res.send(JSON.stringify({completed: "error"}));
     });
   }
   else {
