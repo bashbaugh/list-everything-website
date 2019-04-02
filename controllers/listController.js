@@ -134,8 +134,7 @@ exports.list_add_post = [
         
         for (i = 0; i < _.size(req.body); i++) {
           let item = new ListItem({
-            name: req.body[list.contents.length.toString()],
-            votes: 0
+            name: req.body[list.contents.length.toString()]
           });
           item.save(function (err) {
             if (err) { return next(err); }
@@ -159,51 +158,92 @@ exports.list_add_post = [
 
 exports.list_ajax_action = function(req, res) {
   if (shortid.isValid(req.params.list_id)) {
-    List.findOne({url_id: req.params.list_id})
-    .populate('contents author')
-    .exec(function(err, list) {
-      if (err) return next(err);
-      if (list==null || !req.user) {
-        res.send(JSON.stringify({completed: "error"}));
-        return;
-      }
-      
-      if (req.body.action == "star") {
-        // Ensure that there is only one copy of the user in the stars array:
-        while (list.stars.indexOf(req.user._id) > -1) {
-          list.stars.splice(list.stars.indexOf(req.user._id), 1);
+    if (req.body.action == "star" || req.body.action == "unstar") {
+      List.findOne({url_id: req.params.list_id})
+      .exec(function(err, list) {
+        if (err || list==null || !req.user) {
+          res.send(JSON.stringify({completed: "error"}));
+          return;
         }
-        list.stars.push(req.user._id);
-        list.save(function (err) {
-          if (err) {
-            res.send(JSON.stringify({completed: "error"}));
-            return;
-          }
-        });
-        res.send(JSON.stringify({completed: "star"}));
-        return;
-      }
-      if (req.body.action == "unstar") {
-        if (list.stars.indexOf(req.user._id) > -1) {
-          // Remove all copies of user from stars array:
+        if (req.body.action == "star") {
+          // Ensure that there is only one copy of the user in the stars array:
           while (list.stars.indexOf(req.user._id) > -1) {
             list.stars.splice(list.stars.indexOf(req.user._id), 1);
           }
+          list.stars.push(req.user._id);
           list.save(function (err) {
             if (err) {
               res.send(JSON.stringify({completed: "error"}));
               return;
             }
+            res.send(JSON.stringify({completed: "star"}));
+            return;
           });
+          
         }
-        res.send(JSON.stringify({completed: "unstar"}));
-        return;
-      }
-      res.send(JSON.stringify({completed: "error"}));
-      return;
-    });
-  }
-  else {
+        if (req.body.action == "unstar") {
+          if (list.stars.indexOf(req.user._id) > -1) {
+            // Remove all copies of user from stars array:
+            while (list.stars.indexOf(req.user._id) > -1) {
+              list.stars.splice(list.stars.indexOf(req.user._id), 1);
+            }
+            list.save(function (err) {
+              if (err) {
+                res.send(JSON.stringify({completed: "error"}));
+                return;
+              }
+            });
+          }
+          res.send(JSON.stringify({completed: "unstar"}));
+          return;
+        }
+      });
+    } else {
+      ListItem.findOne({id: req.body.item_id})
+      .exec(function(err, item) {
+        if (item==null || !req.user || err) {
+          res.send(JSON.stringify({completed: "error"}));
+          return;
+        }
+        
+        if (req.body.action == "upvote") {
+          // Ensure that there is only one copy of the user in the upvotes array:
+          while (item.votes.indexOf(req.user._id) > -1) {
+            item.votes.splice(item.votes.indexOf(req.user._id), 1);
+          }
+          item.votes.push(req.user._id);
+          item.save(function (err) {
+            if (err) {
+              console.log(err);
+              res.send(JSON.stringify({completed: "error"}));
+              return;
+            }
+            res.send(JSON.stringify({completed: "upvote"}));
+            return;
+          });
+        } else if (req.body.action == "downvote") {
+          if (item.votes.indexOf(req.user._id) > -1) {
+            // Remove all copies of user from votes array:
+            while (item.votes.indexOf(req.user._id) > -1) {
+              item.votes.splice(item.votes.indexOf(req.user._id), 1);
+            }
+            item.save(function (err) {
+              if (err) {
+                console.log(err);
+                res.send(JSON.stringify({completed: "error"}));
+                return;
+              }
+            });
+          }
+          res.send(JSON.stringify({completed: "downvote"}));
+          return;
+        } else {
+          res.send(JSON.stringify({completed: "error"}));
+          return;
+        }
+      });
+    }
+  } else {
     res.send(JSON.stringify({completed: "error"}));
     return;
   }

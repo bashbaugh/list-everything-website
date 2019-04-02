@@ -45,41 +45,41 @@ function star(action) {
 } 
 
 function upvote(upvote_btn) {
-  vote_icon = $(upvote_btn).find('.vote-icon');
-  old_icon_class = vote_icon
+  var vote_icon = $(upvote_btn).find('.vote-icon');
+  var old_icon_class = vote_icon
   .hasClass('.fa-arrow-down') ? 'fa-arrow-down' : 'fa-arrow-up';
-  vote_icon.removeClass('fa-arrow-up');
+  var position = $(upvote_btn).attr('data-item-position');
+  vote_icon.removeClass('fa-arrow-up fa-arrow-down');
   vote_icon.addClass('fa-spinner spinning');
   $(upvote_btn).attr('disabled', '');
   $.ajax({
     url: location.href + "/upvote",
     type: "POST",
     dataType: "json",
-    data: JSON.stringify({action: $(upvote_btn).attr('data-action')}),
+    data: JSON.stringify({action: $(upvote_btn).attr('data-action'), item_id: $(upvote_btn).attr('data-item-id')}),
     contentType: "application/json",
     cache: false,
     timeout: 10000,
   })
   .done(function(data) {
     if (data.completed == "upvote") {
-      $('#favorite-btn').removeClass('btn-warning btn-light');
-      $('#favorite-btn').addClass('btn-warning');
-      $('#favorite-btn').attr('onclick', "star('unstar')");
-      $('#favorite-text').html(" Favorited ");
-      $('#favorite-count').removeClass('badge-light badge-dark');
-      $('#favorite-count').addClass('badge-light');
+      vote_icon.addClass('fa-arrow-down');
+      $(upvote_btn).attr('data-action', "downvote");
+      $('#ivotetext' + position).html(" Upvoted ");
       // Increment counter:
-      $('#favorite-count')
-      .html((parseInt($('#favorite-count').html()) + 1).toString());
+      $('#ivotec_' + position)
+      .html((parseInt($('#ivotec_' + position).html()) + 1).toString());
+      $('#ivotec2_' + position)
+      .html((parseInt($('#ivotec2_' + position).html()) + 1).toString());
     } else if (data.completed == "downvote") {
-      $('#favorite-btn').addClass('btn-light');
-      $('#favorite-btn').attr('onclick', "star('star')");
-      $('#favorite-text').html(" Favorite ");
-      $('#favorite-count').removeClass('badge-light badge-dark');
-      $('#favorite-count').addClass('badge-dark');
-      // Decrement counter:
-      $('#favorite-count')
-      .html((parseInt($('#favorite-count').html()) - 1).toString());
+      vote_icon.addClass('fa-arrow-up');
+      $(upvote_btn).attr('data-action', "upvote");
+      $('#ivotetext' + position).html(" Upvote ");
+      // Increment counter:
+      $('#ivotec_' + position)
+      .html((parseInt($('#ivotec_' + position).html()) - 1).toString());
+      $('#ivotec2_' + position)
+      .html((parseInt($('#ivotec2_' + position).html()) - 1).toString());
     } else {
       $('#alert-ajax-error').addClass('show');
       vote_icon.addClass(old_icon_class);
