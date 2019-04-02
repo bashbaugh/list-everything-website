@@ -6,9 +6,10 @@ var ListItemSchema = new Schema({
     type: String,
     required: true
   },
-  votes: {
-    type: Number
-  }
+  votes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  }]
 }); 
 
 module.exports = mongoose.model('ListItem', ListItemSchema);

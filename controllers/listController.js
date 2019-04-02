@@ -157,11 +157,7 @@ exports.list_add_post = [
   }
 ];
 
-exports.list_upvote = function(req, res, next) {
-  
-}
-
-exports.list_star = function(req, res, next) {
+exports.list_ajax_action = function(req, res) {
   if (shortid.isValid(req.params.list_id)) {
     List.findOne({url_id: req.params.list_id})
     .populate('contents author')

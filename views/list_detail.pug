@@ -95,9 +95,15 @@ block content
                     i.fa.fa-chevron-up
             div.collapse.list-item-card(id= "icollapse" + position, data-parent= "#list_accordion")
               | #{item.votes} Votes. 
-              button.btn.btn-sm.btn-link(type="button")
-                i.fa.fa-arrow-up
-                |  Upvote
+              if req.user
+                button.btn.btn-sm.btn-link(type="button", onclick="upvote(this)", data-action=((item.votes.indexOf(req.user._id) < 0) ? "upvote" : "downvote"), )
+                  i.fa.fa-arrow-up.vote-icon
+                  |  Upvote
+              else
+                a(href="/login?next=" + encodeURIComponent(req.url))
+                  button.btn.btn-sm.btn-link(type="button")
+                    i.fa.fa-arrow-up
+                    |  Upvote
             
         hr
         if (req.user && req.user._id.toString() == list.author._id.toString())
