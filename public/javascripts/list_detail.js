@@ -1,8 +1,9 @@
 function star(action) {
   $('#favorite-star').addClass('spinning');
   $('#favorite-btn').attr('disabled', '');
+  var post_url = location.href.charAt(location.href.length - 1) == '/' ? 'star' : '/star'
   $.ajax({
-    url: location.href + "/star",
+    url: location.href + post_url,
     type: "POST",
     dataType: "json",
     data: JSON.stringify({action: action}),
@@ -51,9 +52,10 @@ function upvote(upvote_btn) {
   var position = $(upvote_btn).attr('data-item-position');
   vote_icon.removeClass('fa-arrow-up fa-arrow-down');
   vote_icon.addClass('fa-spinner spinning');
+  var post_url = location.href.charAt(location.href.length - 1) == '/' ? 'upvote' : '/upvote'
   $(upvote_btn).attr('disabled', '');
   $.ajax({
-    url: location.href + "/upvote",
+    url: location.href + post_url,
     type: "POST",
     dataType: "json",
     data: JSON.stringify({action: $(upvote_btn).attr('data-action'), item_id: $(upvote_btn).attr('data-item-id')}),
