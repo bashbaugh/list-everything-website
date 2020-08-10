@@ -1,34 +1,34 @@
-var conf = require('./config/config.js');
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var stylus = require('stylus');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session');
-var flash = require('connect-flash');
-var csrf = require('csurf')
+const conf = require('./config/config.js');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const stylus = require('stylus');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const flash = require('connect-flash');
+const csrf = require('csurf')
 
-var indexRouter = require('./routes/app');
-var usersRouter = require('./routes/users');
-var listRouter = require('./routes/list');
+const indexRouter = require('./routes/app');
+const usersRouter = require('./routes/users');
+const listRouter = require('./routes/list');
 
-var app = express();
+const app = express();
 
 
-var csrfProtection = csrf();
+const csrfProtection = csrf();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-var DB_URI = process.env.MONGODB_URI || global.gConfig.db_uri;
+const DB_URI = process.env.MONGODB_URI || global.gConfig.db_uri;
 mongoose.connect(DB_URI, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(logger('dev'));
@@ -50,7 +50,7 @@ app.use(stylus.middleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var Account = require('./models/account');
+const Account = require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

@@ -4,7 +4,7 @@ block head
   title= config.app_name
 
 block content
-  if req.query.intro == "true"
+  if req.query.intro === "true"
     div.modal.fade#intro(tabindex="-1", role="dialog")
       div.modal-dialog.modal-content
         div.modal-header
