@@ -36,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-    secret: global.gConfig.secret,
+    secret: process.env.APP_SECRET || global.gConfig.secret,
     resave: false,
     saveUninitialized: false
 }));
