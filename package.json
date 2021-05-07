@@ -24,6 +24,6 @@
     "pug": "2.0.0-beta11",
     "shortid": "^2.2.14",
     "stylus": "^0.54.5",
-    "underscore": "^1.9.1"
+    "underscore": "^1.12.1"
   }
 }
